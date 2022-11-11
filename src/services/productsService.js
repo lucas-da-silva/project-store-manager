@@ -12,6 +12,12 @@ const getByIdProduct = async (id) => {
 };
 
 const addNewProduct = async (name) => {
+  if (name.length < 5) {
+    return {
+      type: 'FIELD_NAME_INVALID',
+      message: '"name" length must be at least 5 characters long',
+    };
+  }
   const productId = await productsModel.insert(name);
   const product = await productsModel.findById(productId);
   return { type: null, message: product };
