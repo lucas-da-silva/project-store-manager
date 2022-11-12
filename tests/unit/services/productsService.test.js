@@ -31,4 +31,16 @@ describe("Check the service products layer", function () {
     const result = await productService.getByIdProduct(100);
     expect(result).to.be.deep.equal(productMock.errorResponse);
   });
+
+  it("with an valid name, the addNewProduct function returns an product", async function () {
+    sinon.stub(productModel, "insert").resolves(productMock.createdNewProduct.id);
+    sinon.stub(productModel, "findById").resolves(productMock.createdNewProduct);
+    const result = await productService.addNewProduct('Power rings');
+    expect(result).to.be.deep.equal(productMock.addNewProductResponse);
+  });
+
+  it("with an invalid name, the addNewProduct function returns error", async function () {
+    const result = await productService.addNewProduct('P');
+    expect(result).to.be.deep.equal(productMock.errorAddNewProductResponse);
+  });
 });

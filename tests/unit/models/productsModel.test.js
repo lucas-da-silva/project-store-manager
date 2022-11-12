@@ -7,7 +7,7 @@ const productsMock = require("./mocks/productsModelMock");
 
 describe("Check the model products layer", function () {
   afterEach(sinon.restore);
-  
+
   it("function findAll returns all products", async function () {
     sinon
       .stub(connection, "execute")
@@ -22,5 +22,12 @@ describe("Check the model products layer", function () {
       .resolves([[productsMock.productResponse]]);
     const result = await productsModel.findById(1);
     expect(result).to.be.deep.equal(productsMock.productResponse);
+  });
+
+  it("function insert adds a product to the database and returns the id", async function () {
+    const id = 4;
+    sinon.stub(connection, "execute").resolves([{ insertId: id }]);
+    const result = await productsModel.insert("Power rings");
+    expect(result).to.be.deep.equal(id);
   });
 });

@@ -21,10 +21,30 @@ const productResponse = {
 const errorResponse = {
   type: "ID_NOT_FOUND",
   message: "Product not found",
-}
+};
+
+const createdNewProduct = {
+  id: 4,
+  name: "Power rings",
+};
+
+const addNewProductResponse = {
+  type: null,
+  message: {
+    ...createdNewProduct,
+  },
+};
+
+const errorAddNewProductResponse = {
+  type: "FIELD_NAME_INVALID",
+  message: '"name" length must be at least 5 characters long',
+};
 
 module.exports = {
   allProductsResponse,
   productResponse,
   errorResponse,
+  createdNewProduct,
+  addNewProductResponse,
+  errorAddNewProductResponse,
 };
