@@ -1,13 +1,10 @@
-const validateQuantitySales = (sales) => {
-  if (sales.some(({ quantity }) => Number(quantity) <= 0)) { 
-    return { type: 'QUANTITY_INVALID', message: '"quantity" must be greater than or equal to 1' };
-  }
-  return { type: null, message: '' };
-};
+// const salesModel = require('../models/salesModel');
+const validateSales = require('./validations/validateSales');
 
 const registerSales = async (sales) => {
-  const validateQuantity = validateQuantitySales(sales);
-  if (validateQuantity.type) return validateQuantity;
+  const error = await validateSales.validateNewSales(sales);
+  if (error.type) return error;
+
   return { type: null, message: 'ola' };
 };
 
