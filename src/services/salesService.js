@@ -1,11 +1,23 @@
-// const salesModel = require('../models/salesModel');
+const salesModel = require('../models/salesModel');
 const validateSales = require('./validations/validateSales');
 
 const registerSales = async (sales) => {
   const error = await validateSales.validateNewSales(sales);
   if (error.type) return error;
 
-  return { type: null, message: 'ola' };
+  const saleId = await salesModel.insertSale();
+  await Promise.all(
+    sales.map(async ({ productId, quantity }) =>
+      salesModel.insertSaleProduct(saleId, productId, quantity)),
+  );
+  
+  return {
+    type: null,
+    message: {
+      id: saleId,
+      itemsSold: sales,
+    },
+  };
 };
 
 module.exports = {
