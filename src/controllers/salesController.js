@@ -7,6 +7,17 @@ const registerSales = async (req, res) => {
   res.status(201).json(message);
 };
 
+const getAllSales = async (_req, res) => {
+  const { message } = await salesService.getAllSales();
+  return res.status(200).json(message);
+};
+
+const getByIdSales = async (req, res) => {
+
+};
+
 module.exports = {
   registerSales,
+  getAllSales,
+  getByIdSales,
 };

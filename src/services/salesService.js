@@ -20,6 +20,16 @@ const registerSales = async (sales) => {
   };
 };
 
+const getAllSales = async () => {
+  const sales = await salesModel.getAllSales();
+};
+
+const getByIdSales = async (id) => {
+
+};
+
 module.exports = {
   registerSales,
+  getAllSales,
+  getByIdSales,
 };
