@@ -9,7 +9,7 @@ const validateSales = require("../../../src/services/validations/validateSales")
 describe("Check the service sales layer", function () {
   afterEach(sinon.restore);
 
-  it("with productId invalid, registerSales function returns a error", async function () {
+  it("with productId invalid, registerSales function return error", async function () {
     sinon
       .stub(validateSales, "validateNewSales")
       .resolves(salesMock.productNotFoundError);
