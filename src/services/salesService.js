@@ -22,9 +22,22 @@ const registerSales = async (sales) => {
 
 const getAllSales = async () => {
   const sales = await salesModel.getAllSales();
+  const salesProducts = await Promise.all(
+    sales.map(async ({ id }) => salesModel.getSaleProduct(id)),
+  );
+
+  const salesArray = [];
+  salesProducts.forEach((sale) => salesArray.push(...sale));
+  
+  const formatedSale = salesArray.map((sale) => {
+    const { date } = sales.find(({ id }) => Number(id) === Number(sale.sale_id));
+    return { ...sale, date };
+  });
+
+  return { message: formatedSale };
 };
 
-const getByIdSales = async (id) => {
+const getByIdSales = async (saleId) => {
 
 };
 
