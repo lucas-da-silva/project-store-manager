@@ -10,7 +10,7 @@ const registerSales = async (sales) => {
     sales.map(async ({ productId, quantity }) =>
       salesModel.insertSaleProduct(saleId, productId, quantity)),
   );
-  
+
   return {
     type: null,
     message: {
@@ -28,18 +28,18 @@ const getAllSales = async () => {
 
   const salesArray = [];
   salesProducts.forEach((sale) => salesArray.push(...sale));
-  
-  const formatedSale = salesArray.map((sale) => {
-    const { date } = sales.find(({ id }) => Number(id) === Number(sale.sale_id));
-    return { ...sale, date };
-  });
+
+  const formatedSale = salesArray.map(
+    ({ sale_id: saleId, product_id: productId, quantity }) => {
+      const { date } = sales.find(({ id }) => Number(id) === Number(saleId));
+      return { saleId, date, productId, quantity };
+    },
+  );
 
   return { message: formatedSale };
 };
 
-const getByIdSales = async (saleId) => {
-
-};
+const getByIdSales = async (saleId) => {};
 
 module.exports = {
   registerSales,
