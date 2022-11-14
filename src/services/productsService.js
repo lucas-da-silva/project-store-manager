@@ -7,14 +7,14 @@ const getAllProducts = async () => {
 
 const getByIdProduct = async (id) => {
   const product = await productsModel.findById(id);
-  if (!product) return { type: 'ID_NOT_FOUND', message: 'Product not found' };
+  if (!product) return { type: 'NOT_FOUND', message: 'Product not found' };
   return { type: null, message: product };
 };
 
 const addNewProduct = async (name) => {
   if (name.length < 5) {
     return {
-      type: 'FIELD_NAME_INVALID',
+      type: 'FIELD_INVALID',
       message: '"name" length must be at least 5 characters long',
     };
   }
@@ -23,8 +23,13 @@ const addNewProduct = async (name) => {
   return { type: null, message: product };
 };
 
+const updateProduct = async (id, name) => {
+
+};
+
 module.exports = {
   getAllProducts,
   getByIdProduct,
   addNewProduct,
+  updateProduct,
 };

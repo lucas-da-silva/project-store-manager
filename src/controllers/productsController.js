@@ -1,26 +1,37 @@
 const productsService = require('../services/productsService');
+const errorMap = require('../utils/errorMap');
 
 const getAllProducts = async (_req, res) => {
-  const { message } = await productsService.getAllProducts(); 
+  const { message } = await productsService.getAllProducts();
   return res.status(200).json(message);
-};  
+};
 
 const getByIdProduct = async (req, res) => {
   const { id } = req.params;
   const { type, message } = await productsService.getByIdProduct(id);
-  if (type) return res.status(404).json({ message });
+  if (type) return res.status(errorMap.mapError(type)).json({ message });
   return res.status(200).json(message);
 };
 
 const addNewProduct = async (req, res) => {
   const { name } = req.body;
   const { type, message } = await productsService.addNewProduct(name);
-  if (type) return res.status(422).json({ message });
+  if (type) return res.status(errorMap.mapError(type)).json({ message });
   return res.status(201).json(message);
+};
+
+const updateProduct = async (req, res) => {
+  const { id } = req.params;
+  const { name } = req.body;
+  const { type, message } = await productsService.updateProduct(id, name);
+
+  if (type) return res.status(errorMap.mapError(type)).json({ message });
+  return res.status(200).json(message);
 };
 
 module.exports = {
   getAllProducts,
   getByIdProduct,
   addNewProduct,
+  updateProduct,
 };

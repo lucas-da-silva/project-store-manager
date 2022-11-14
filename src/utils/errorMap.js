@@ -1,5 +1,5 @@
 const errorMap = {
-  QUANTITY_INVALID: 422,
+  FIELD_INVALID: 422,
   NOT_FOUND: 404,
   BAD_REQUEST: 400,
 };

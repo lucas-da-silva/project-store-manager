@@ -4,7 +4,7 @@ const saleModel = require('../../models/salesModel');
 const validateNewSales = async (sales) => {
   if (sales.some(({ quantity }) => Number(quantity) <= 0)) {
     return {
-      type: 'QUANTITY_INVALID',
+      type: 'FIELD_INVALID',
       message: '"quantity" must be greater than or equal to 1',
     };
   }
