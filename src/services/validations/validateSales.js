@@ -1,5 +1,4 @@
 const productsModel = require('../../models/productsModel');
-const errorMap = require('../../utils/errorMap');
 const saleModel = require('../../models/salesModel');
 
 const validateNewSales = async (sales) => {

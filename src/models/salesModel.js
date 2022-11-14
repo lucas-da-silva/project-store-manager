@@ -15,19 +15,19 @@ const insertSaleProduct = async (saleId, productId, quantity) => {
   );
 };
 
+const getAllSales = async () => {
+  const [result] = await connection.execute(
+    'SELECT * FROM StoreManager.sales;',
+  );
+  return result;
+};
+
 const getSalesProducts = async (saleId) => {
   const [result] = await connection.execute(
     'SELECT * FROM StoreManager.sales_products WHERE sale_id = ?',
     [saleId],
   );
   return camelize(result);
-};
-
-const getAllSales = async () => {
-  const [result] = await connection.execute(
-    'SELECT * FROM StoreManager.sales;',
-  );
-  return result;
 };
 
 const getSaleById = async (id) => {

@@ -25,7 +25,7 @@ const getAllSales = async () => {
   const salesProducts = await Promise.all(
     sales.map(async ({ id }) => salesModel.getSalesProducts(id)),
   );
-
+  console.log(salesProducts);
   const salesArray = [];
   salesProducts.forEach((sale) => salesArray.push(...sale));
 
