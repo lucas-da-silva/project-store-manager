@@ -8,16 +8,15 @@ chai.use(sinonChai);
 const productsController = require("../../../src/controllers/productsController");
 const productsService = require("../../../src/services/productsService");
 const productsMock = require("./mocks/productsControllerMock");
+const errorMap = require("../../../src/utils/errorMap");
 
-const NOT_FOUND = 404;
-const FIELDS_INVALID = 422;
 const SUCCESS = 200;
 const CREATED = 201;
 
 describe("Check the controller products layer", function () {
   afterEach(sinon.restore);
 
-  it("getAllProducts function returns status 200 and all products", async function () {
+  it('"getAllProducts" function returns status 200 and all products', async function () {
     const res = {};
     const req = {};
 
@@ -33,7 +32,7 @@ describe("Check the controller products layer", function () {
     expect(res.json).to.have.been.calledWith(productsMock.allProductsResponse);
   });
 
-  it("getByIdProduct function returns status 200 and product", async function () {
+  it('"getByIdProduct" function returns status 200 and product', async function () {
     const res = {};
     const req = productsMock.reqGetByIdProduct;
 
@@ -51,7 +50,7 @@ describe("Check the controller products layer", function () {
     );
   });
 
-  it("with invalid ID, getByIdProduct function returns status 404 and a message", async function () {
+  it('with invalid ID, "getByIdProduct" function returns status 404 and a message', async function () {
     const res = {};
     const req = productsMock.errorReqGetByIdProduct;
 
@@ -63,13 +62,13 @@ describe("Check the controller products layer", function () {
 
     await productsController.getByIdProduct(req, res);
 
-    expect(res.status).to.have.been.calledWith(NOT_FOUND);
+    expect(res.status).to.have.been.calledWith(errorMap.errorMap.NOT_FOUND);
     expect(res.json).to.have.been.calledWith({
       message: productsMock.errorProductResponse.message,
     });
   });
 
-  it("with valid name, addNewProduct function add the product and return it", async function () {
+  it('with valid name, "addNewProduct" function add the product and return it', async function () {
     const res = {};
     const req = productsMock.reqAddNewProduct;
 
@@ -87,7 +86,7 @@ describe("Check the controller products layer", function () {
     );
   });
 
-  it("with invalid name, addNewProduct function return error", async function () {
+  it('with invalid name, "addNewProduct" function return error', async function () {
     const res = {};
     const req = productsMock.errorReqAddNewProduct;
 
@@ -99,9 +98,45 @@ describe("Check the controller products layer", function () {
 
     await productsController.addNewProduct(req, res);
 
-    expect(res.status).to.have.been.calledWith(FIELDS_INVALID);
+    expect(res.status).to.have.been.calledWith(errorMap.errorMap.FIELD_INVALID);
     expect(res.json).to.have.been.calledWith({
       message: productsMock.errorAddProductResponse.message,
     });
+  });
+
+  it('with invalid name, "updateProduct" function return error', async function () {
+    const res = {};
+    const req = productsMock.errorReqUpdate;
+
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon
+      .stub(productsService, "updateProduct")
+      .resolves(productsMock.errorNameLength);
+
+    await productsController.updateProduct(req, res);
+
+    expect(res.status).to.have.been.calledWith(errorMap.errorMap.FIELD_INVALID);
+    expect(res.json).to.have.been.calledWith({
+      message: productsMock.errorNameLength.message,
+    });
+  });
+
+  it('"updateProduct" function update a product', async function () {
+    const res = {};
+    const req = productsMock.reqUpdate;
+
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon
+      .stub(productsService, "updateProduct")
+      .resolves(productsMock.updateResponse);
+
+    await productsController.updateProduct(req, res);
+
+    expect(res.status).to.have.been.calledWith(SUCCESS);
+    expect(res.json).to.have.been.calledWith(
+      productsMock.updateResponse.message
+    );
   });
 });

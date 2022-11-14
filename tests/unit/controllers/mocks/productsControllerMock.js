@@ -63,6 +63,40 @@ const errorAddProductResponse = {
   message: '"name" length must be at least 5 characters long',
 };
 
+const errorReqUpdate = {
+  params: {
+    id: 1,
+  },
+  body: {
+    name: "P",
+  },
+};
+
+const errorNameLength = {
+  type: "FIELD_INVALID",
+  message: '"name" length must be at least 5 characters long',
+};
+
+const updateName = "Berserk armor";
+const updateId = 1;
+
+const reqUpdate = {
+  params: {
+    id: updateId,
+  },
+  body: {
+    name: updateName,
+  },
+};
+
+const updateResponse = {
+  type: null,
+  message: {
+    id: updateId,
+    name: updateName,
+  },
+};
+
 module.exports = {
   allProductsResponse,
   productResponse,
@@ -73,4 +107,8 @@ module.exports = {
   addProductResponse,
   errorReqAddNewProduct,
   errorAddProductResponse,
+  errorReqUpdate,
+  errorNameLength,
+  reqUpdate,
+  updateResponse,
 };
