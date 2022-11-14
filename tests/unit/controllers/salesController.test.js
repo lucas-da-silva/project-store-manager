@@ -28,7 +28,7 @@ describe("Check the controller products layer", function () {
     await salesController.registerSales(req, res);
 
     expect(res.status).to.have.been.calledWith(
-      errorMap.errorMap.QUANTITY_INVALID
+      errorMap.errorMap.FIELD_INVALID
     );
     expect(res.json).to.have.been.calledWith({
       message: salesMock.quantityError.message,

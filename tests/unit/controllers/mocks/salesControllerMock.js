@@ -21,7 +21,7 @@ const validReq = {
 };
 
 const quantityError = {
-  type: "QUANTITY_INVALID",
+  type: "FIELD_INVALID",
   message: '"quantity" must be greater than or equal to 1',
 };
 

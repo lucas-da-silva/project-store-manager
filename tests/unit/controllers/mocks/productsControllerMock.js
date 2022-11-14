@@ -22,7 +22,7 @@ const productResponse = {
 };
 
 const errorProductResponse = {
-  type: "ID_NOT_FOUND",
+  type: "NOT_FOUND",
   message: "Product not found",
 };
 
@@ -59,7 +59,7 @@ const addProductResponse = {
 };
 
 const errorAddProductResponse = {
-  type: "FIELD_NAME_INVALID",
+  type: "FIELD_INVALID",
   message: '"name" length must be at least 5 characters long',
 };
 

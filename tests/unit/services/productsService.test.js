@@ -27,7 +27,7 @@ describe("Check the service products layer", function () {
   });
 
   it("with an invalid ID, the getByIdProduct function returns an error", async function () {
-    sinon.stub(productModel, "findById").resolves(null);
+    sinon.stub(productModel, "findById").resolves(undefined);
     const result = await productService.getByIdProduct(100);
     expect(result).to.be.deep.equal(productMock.errorResponse);
   });

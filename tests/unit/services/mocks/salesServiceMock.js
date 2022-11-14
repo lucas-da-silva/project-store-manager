@@ -1,7 +1,7 @@
 const insertId = 3;
 
 const productNotFoundError = {
-  type: "PRODUCT_NOT_FOUND",
+  type: "NOT_FOUND",
   message: "Product not found",
 };
 
