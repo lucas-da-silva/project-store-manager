@@ -16,11 +16,23 @@ const getByIdSales = async (req, res) => {
   const { id } = req.params;
   const { type, message } = await salesService.getByIdSales(id);
   if (type) return res.status(errorMap.mapError(type)).json({ message });
-  res.status(200).json(message);
+  return res.status(200).json(message);
+};
+
+const deleteSale = async (req, res) => {
+  const { id } = req.params;
+  const error = await salesService.deleteSale(id);
+  if (error.type) {
+    return res
+      .status(errorMap.mapError(error.type))
+      .json({ message: error.message }); 
+  }
+  return res.status(204).end();
 };
 
 module.exports = {
   registerSales,
   getAllSales,
   getByIdSales,
+  deleteSale,
 };

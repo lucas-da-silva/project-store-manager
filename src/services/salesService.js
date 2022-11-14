@@ -39,13 +39,13 @@ const getAllSales = async () => {
 };
 
 const getByIdSales = async (saleId) => {
-  const error = await validateSales.validateIdSale(saleId);
-  if (error.type) return error;
+  const doesSaleNotExit = await validateSales.validateIdSale(saleId);
+  if (doesSaleNotExit.type) return doesSaleNotExit;
 
   const salesProducts = await salesModel.getSalesProducts(saleId);
 
   const formatedSale = salesProducts.map(({ productId, quantity }) => ({
-    date: error.message.date,
+    date: doesSaleNotExit.message.date,
     productId,
     quantity,
   }));
@@ -53,8 +53,16 @@ const getByIdSales = async (saleId) => {
   return { type: null, message: formatedSale };
 };
 
+const deleteSale = async (saleId) => {
+  const doesSaleNotExit = await validateSales.validateIdSale(saleId);
+  if (doesSaleNotExit.type) return doesSaleNotExit;
+  await salesModel.deleteSale(saleId);
+  return { type: null };
+};
+
 module.exports = {
   registerSales,
   getAllSales,
   getByIdSales,
+  deleteSale,
 };
