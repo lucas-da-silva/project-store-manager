@@ -1,4 +1,6 @@
 const productsModel = require('../../models/productsModel');
+const errorMap = require('../../utils/errorMap');
+const saleModel = require('../../models/salesModel');
 
 const validateNewSales = async (sales) => {
   if (sales.some(({ quantity }) => Number(quantity) <= 0)) {
@@ -14,12 +16,24 @@ const validateNewSales = async (sales) => {
 
   const someSaleIsMissing = salesId.some((sale) => sale === undefined);
   if (someSaleIsMissing) {
-    return { type: 'PRODUCT_NOT_FOUND', message: 'Product not found' };
+    return { type: 'NOT_FOUND', message: 'Product not found' };
   }
 
   return { type: null };
 };
 
+const validateIdSale = async (id) => {
+  const sale = await saleModel.getSaleById(id);
+  if (!sale) {
+    return {
+      type: 'NOT_FOUND',
+      message: 'Sale not found',
+    };
+  }
+  return { type: null, message: sale };
+};
+
 module.exports = {
   validateNewSales,
+  validateIdSale,
 };

@@ -13,7 +13,10 @@ const getAllSales = async (_req, res) => {
 };
 
 const getByIdSales = async (req, res) => {
-
+  const { id } = req.params;
+  const { type, message } = await salesService.getByIdSales(id);
+  if (type) return res.status(errorMap.mapError(type)).json({ message });
+  res.status(200).json(message);
 };
 
 module.exports = {
