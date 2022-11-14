@@ -8,7 +8,7 @@ const productsMock = require("./mocks/productsModelMock");
 describe("Check the model products layer", function () {
   afterEach(sinon.restore);
 
-  it("function findAll returns all products", async function () {
+  it("function 'findAll' returns all products", async function () {
     sinon
       .stub(connection, "execute")
       .resolves([productsMock.allProductsResponse]);
@@ -16,7 +16,7 @@ describe("Check the model products layer", function () {
     expect(result).to.be.deep.equal(productsMock.allProductsResponse);
   });
 
-  it("function findById returns the product id and information", async function () {
+  it("function 'findById' returns the product id and information", async function () {
     sinon
       .stub(connection, "execute")
       .resolves([[productsMock.productResponse]]);
@@ -24,10 +24,19 @@ describe("Check the model products layer", function () {
     expect(result).to.be.deep.equal(productsMock.productResponse);
   });
 
-  it("function insert adds a product to the database and returns the id", async function () {
+  it("function 'insert' adds a product to the database and returns the id", async function () {
     const id = 4;
     sinon.stub(connection, "execute").resolves([{ insertId: id }]);
     const result = await productsModel.insert("Power rings");
     expect(result).to.be.deep.equal(id);
+  });
+
+  it("function 'update' update a product", async function () {
+    sinon.stub(connection, "execute").resolves();
+    await productsModel.update(...productsMock.paramsUpdate);
+    expect(connection.execute).to.have.been.calledWith(
+      productsMock.queryUpdate.query,
+      productsMock.queryUpdate.values
+    );
   });
 });
