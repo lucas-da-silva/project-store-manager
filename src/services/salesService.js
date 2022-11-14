@@ -22,10 +22,11 @@ const registerSales = async (sales) => {
 
 const getAllSales = async () => {
   const sales = await salesModel.getAllSales();
+  
   const salesProducts = await Promise.all(
     sales.map(async ({ id }) => salesModel.getSalesProducts(id)),
   );
-  console.log(salesProducts);
+
   const salesArray = [];
   salesProducts.forEach((sale) => salesArray.push(...sale));
 
@@ -42,6 +43,7 @@ const getByIdSales = async (saleId) => {
   if (error.type) return error;
 
   const salesProducts = await salesModel.getSalesProducts(saleId);
+
   const formatedSale = salesProducts.map(({ productId, quantity }) => ({
     date: error.message.date,
     productId,
