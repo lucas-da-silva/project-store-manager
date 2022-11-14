@@ -40,6 +40,26 @@ const errorAddNewProductResponse = {
   message: '"name" length must be at least 5 characters long',
 };
 
+const validName = 'Berserk armor';
+const validId = 1;
+const invalidName = 'P';
+const invalidId = 100; 
+
+const errorLengthName = {
+  type: "FIELD_INVALID",
+  message: '"name" length must be at least 5 characters long',
+};
+
+const idNotFound = { type: "NOT_FOUND", message: "Product not found" };
+
+const updateProductResponse = {
+  type: null,
+  message: {
+    id: validId,
+    name: validName
+  }
+}
+
 module.exports = {
   allProductsResponse,
   productResponse,
@@ -47,4 +67,11 @@ module.exports = {
   createdNewProduct,
   addNewProductResponse,
   errorAddNewProductResponse,
+  invalidName,
+  validName,
+  validId,
+  invalidId,
+  errorLengthName,
+  idNotFound,
+  updateProductResponse,
 };

@@ -4,11 +4,12 @@ const sinon = require("sinon");
 const productService = require("../../../src/services/productsService");
 const productMock = require("./mocks/productsServiceMock");
 const productModel = require("../../../src/models/productsModel");
+const validateProducts = require('../../../src/services/validations/validateProducts')
 
 describe("Check the service products layer", function () {
   afterEach(sinon.restore);
-  
-  it("getAllProducts function returns all products", async function () {
+
+  it('"getAllProducts" function returns all products', async function () {
     sinon
       .stub(productModel, "findAll")
       .resolves(productMock.allProductsResponse);
@@ -18,29 +19,53 @@ describe("Check the service products layer", function () {
     });
   });
 
-  it("with a valid ID, the getByIdProduct function returns the product", async function () {
+  it('with a valid ID, the "getByIdProduct" function returns the product', async function () {
     sinon.stub(productModel, "findById").resolves(productMock.productResponse);
-    const result = await productService.getByIdProduct(1);
+    const result = await productService.getByIdProduct(productMock.validId);
     expect(result).to.be.deep.equal({
-      type: null, message: productMock.productResponse,
+      type: null,
+      message: productMock.productResponse,
     });
   });
 
-  it("with an invalid ID, the getByIdProduct function returns an error", async function () {
+  it('with an invalid ID, the "getByIdProduct" function returns an error', async function () {
     sinon.stub(productModel, "findById").resolves(undefined);
-    const result = await productService.getByIdProduct(100);
+    const result = await productService.getByIdProduct(productMock.invalidId);
     expect(result).to.be.deep.equal(productMock.errorResponse);
   });
 
-  it("with an valid name, the addNewProduct function returns an product", async function () {
-    sinon.stub(productModel, "insert").resolves(productMock.createdNewProduct.id);
-    sinon.stub(productModel, "findById").resolves(productMock.createdNewProduct);
-    const result = await productService.addNewProduct('Power rings');
+  it('with an valid name, the "addNewProduct" function returns an product', async function () {
+    sinon
+      .stub(productModel, "insert")
+      .resolves(productMock.createdNewProduct.id);
+    sinon
+      .stub(productModel, "findById")
+      .resolves(productMock.createdNewProduct);
+    const result = await productService.addNewProduct(productMock.validName);
     expect(result).to.be.deep.equal(productMock.addNewProductResponse);
   });
 
-  it("with an invalid name, the addNewProduct function returns error", async function () {
-    const result = await productService.addNewProduct('P');
+  it('with an invalid name, the "addNewProduct" function returns error', async function () {
+    const result = await productService.addNewProduct(productMock.invalidName);
     expect(result).to.be.deep.equal(productMock.errorAddNewProductResponse);
+  });
+
+  it('with an invalid name, the "updateProduct" function returns error', async function () {
+    const result = await productService.updateProduct(productMock.validId, productMock.invalidName);
+    expect(result).to.be.deep.equal(productMock.errorLengthName);
+  });
+
+  it('with an invalid ID, the "updateProduct" function returns error', async function () {
+    sinon.stub(validateProducts, 'validateProductId').resolves(productMock.idNotFound)
+    const result = await productService.updateProduct(productMock.invalidId, productMock.validName);
+    expect(result).to.be.deep.equal(productMock.idNotFound);
+  });
+
+  it('the "updateProduct" function update a product', async function () {
+    sinon.stub(validateProducts, 'validateProductId').resolves({ type: null });
+    sinon.stub(productModel, 'insert').resolves();
+
+    const result = await productService.updateProduct(productMock.validId, productMock.validName);
+    expect(result).to.be.deep.equal(productMock.updateProductResponse);
   });
 });
