@@ -25,9 +25,17 @@ const queryUpdate = {
   values: [paramsUpdate[1], paramsUpdate[0]],
 };
 
+const paramDelete = 1;
+const queryDelete = {
+  query: "DELETE FROM StoreManager.products WHERE id = ?",
+  values: [paramDelete],
+};
+
 module.exports = {
   allProductsResponse,
   productResponse,
   paramsUpdate,
   queryUpdate,
+  paramDelete,
+  queryDelete,
 };
