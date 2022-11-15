@@ -13,14 +13,14 @@ describe("Check the service sales layer", function () {
 
   it("with productId invalid, registerSales function return error", async function () {
     sinon
-      .stub(validateSales, "validateNewSales")
+      .stub(validateSales, "validateSales")
       .resolves(salesMock.productNotFoundError);
     const result = await salesService.registerSales(salesMock.invalidParams);
     expect(result).to.be.deep.equal(salesMock.productNotFoundError);
   });
 
   it("registerSales function returns the sale id and the products entered", async function () {
-    sinon.stub(validateSales, "validateNewSales").resolves({ type: null });
+    sinon.stub(validateSales, "validateSales").resolves({ type: null });
     sinon.stub(salesModel, "insertSale").resolves(salesMock.insertId);
     sinon.stub(salesModel, "insertSaleProduct").resolves();
 

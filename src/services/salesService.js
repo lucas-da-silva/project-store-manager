@@ -2,7 +2,7 @@ const salesModel = require('../models/salesModel');
 const validateSales = require('./validations/validateSales');
 
 const registerSales = async (sales) => {
-  const error = await validateSales.validateNewSales(sales);
+  const error = await validateSales.validateSales(sales);
   if (error.type) return error;
 
   const saleId = await salesModel.insertSale();
@@ -64,7 +64,7 @@ const updateSale = async (saleId, sales) => {
   const doesSaleNotExit = await validateSales.validateIdSale(saleId);
   if (doesSaleNotExit.type) return doesSaleNotExit;
   
-  const error = await validateSales.validateNewSales(sales);
+  const error = await validateSales.validateSales(sales);
   if (error.type) return error;
 
   const oldSales = await salesModel.getSalesProducts(saleId); 

@@ -1,7 +1,7 @@
 const productsModel = require('../../models/productsModel');
 const saleModel = require('../../models/salesModel');
 
-const validateNewSales = async (sales) => {
+const validateSales = async (sales) => {
   if (sales.some(({ quantity }) => Number(quantity) <= 0)) {
     return {
       type: 'FIELD_INVALID',
@@ -33,6 +33,6 @@ const validateIdSale = async (id) => {
 };
 
 module.exports = {
-  validateNewSales,
+  validateSales,
   validateIdSale,
 };
