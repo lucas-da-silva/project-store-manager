@@ -31,7 +31,7 @@ describe("Check the service products layer", function () {
   it('with an invalid ID, the "getByIdProduct" function returns an error', async function () {
     sinon.stub(productModel, "findById").resolves(undefined);
     const result = await productService.getByIdProduct(productMock.invalidId);
-    expect(result).to.be.deep.equal(productMock.errorResponse);
+    expect(result).to.be.deep.equal(productMock.idNotFound);
   });
 
   it('with an valid name, the "addNewProduct" function returns an product', async function () {
@@ -62,10 +62,31 @@ describe("Check the service products layer", function () {
   });
 
   it('the "updateProduct" function update a product', async function () {
-    sinon.stub(validateProducts, 'validateProductId').resolves({ type: null });
+    sinon
+      .stub(validateProducts, "validateProductId")
+      .resolves(productMock.typeSucess);
     sinon.stub(productModel, 'insert').resolves();
 
     const result = await productService.updateProduct(productMock.validId, productMock.validName);
     expect(result).to.be.deep.equal(productMock.updateProductResponse);
+  });
+
+  it('with an invalid ID, "deleteProduct" function returns error', async function () {
+    sinon
+      .stub(validateProducts, "validateProductId")
+      .resolves(productMock.idNotFound);
+    
+    const result = await productService.deleteProduct(productMock.invalidId);
+    expect(result).to.be.deep.equal(productMock.idNotFound);
+  });
+  
+  it('"deleteProduct" function delete a product based on its id', async function () {
+    sinon
+      .stub(validateProducts, "validateProductId")
+      .resolves(productMock.typeSucess);
+    sinon.stub(productModel, 'deleteProduct').resolves();
+    
+    const result = await productService.deleteProduct(productMock.validId);
+    expect(result).to.be.deep.equal(productMock.typeSucess);
   });
 });

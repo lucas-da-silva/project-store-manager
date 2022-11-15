@@ -18,11 +18,6 @@ const productResponse = {
   name: "Martelo de Thor",
 };
 
-const errorResponse = {
-  type: "NOT_FOUND",
-  message: "Product not found",
-};
-
 const createdNewProduct = {
   id: 4,
   name: "Power rings",
@@ -60,10 +55,11 @@ const updateProductResponse = {
   }
 }
 
+const typeSucess = { type: null } 
+
 module.exports = {
   allProductsResponse,
   productResponse,
-  errorResponse,
   createdNewProduct,
   addNewProductResponse,
   errorAddNewProductResponse,
@@ -74,4 +70,5 @@ module.exports = {
   errorLengthName,
   idNotFound,
   updateProductResponse,
+  typeSucess,
 };
