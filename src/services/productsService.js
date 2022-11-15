@@ -26,7 +26,7 @@ const updateProduct = async (id, name) => {
 
   const productDoesNotExist = await validateProducts.validateProductId(id);
   if (productDoesNotExist.type) return productDoesNotExist;
-  
+
   await productsModel.update(id, name);
   return { type: null, message: { id, name } };
 };
@@ -38,10 +38,18 @@ const deleteProduct = async (id) => {
   return { type: null };
 };
 
+const getBySearchProduct = async (name) => {
+  const result = name
+    ? await productsModel.getBySearch(name)
+    : await productsModel.findAll();
+  return { message: result };
+};
+
 module.exports = {
   getAllProducts,
   getByIdProduct,
   addNewProduct,
   updateProduct,
   deleteProduct,
+  getBySearchProduct,
 };
