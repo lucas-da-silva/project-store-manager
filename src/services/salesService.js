@@ -60,9 +60,27 @@ const deleteSale = async (saleId) => {
   return { type: null };
 };
 
+const updateSale = async (saleId, sales) => {
+  const doesSaleNotExit = await validateSales.validateIdSale(saleId);
+  if (doesSaleNotExit.type) return doesSaleNotExit;
+  
+  const error = await validateSales.validateNewSales(sales);
+  if (error.type) return error;
+
+  const oldSales = await salesModel.getSalesProducts(saleId); 
+  await Promise.all(
+    sales.map(async (sale, index) => {
+      await salesModel.updateSale(saleId, sale, oldSales[index]);
+    }),
+  );
+
+  return { type: null, message: { saleId, itemsUpdated: sales } };
+};
+
 module.exports = {
   registerSales,
   getAllSales,
   getByIdSales,
   deleteSale,
+  updateSale,
 };
