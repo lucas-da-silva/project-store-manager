@@ -2,7 +2,7 @@ const { expect } = require("chai");
 const sinon = require("sinon");
 
 const validateSales = require("../../../src/services/validations/validateSales");
-const validateMock = require("./mocks/validateSalesMock.test");
+const validateMock = require("./mocks/validateSalesMock");
 const productsModel = require("../../../src/models/productsModel");
 const saleModel = require('../../../src/models/salesModel');
 
