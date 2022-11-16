@@ -1,3 +1,16 @@
+const invalidId = 1000;
+const typeSuccess = null;
+
+const errorNameLength = {
+  type: "FIELD_INVALID",
+  message: '"name" length must be at least 5 characters long',
+};
+
+const errorProductResponse = {
+  type: "NOT_FOUND",
+  message: "Product not found",
+};
+
 const allProductsResponse = [
   {
     id: 1,
@@ -14,16 +27,11 @@ const allProductsResponse = [
 ];
 
 const productResponse = {
-  type: null,
+  type: typeSuccess,
   message: {
     id: 1,
     name: "Martelo de Thor",
   },
-};
-
-const errorProductResponse = {
-  type: "NOT_FOUND",
-  message: "Product not found",
 };
 
 const reqGetByIdProduct = {
@@ -51,7 +59,7 @@ const errorReqAddNewProduct = {
 };
 
 const addProductResponse = {
-  type: null,
+  type: typeSuccess,
   message: {
     id: 4,
     name: reqAddNewProduct.body.name,
@@ -72,14 +80,8 @@ const errorReqUpdate = {
   },
 };
 
-const errorNameLength = {
-  type: "FIELD_INVALID",
-  message: '"name" length must be at least 5 characters long',
-};
-
 const updateName = "Berserk armor";
 const updateId = 1;
-
 const reqUpdate = {
   params: {
     id: updateId,
@@ -88,14 +90,27 @@ const reqUpdate = {
     name: updateName,
   },
 };
-
 const updateResponse = {
-  type: null,
+  type: typeSuccess,
   message: {
     id: updateId,
     name: updateName,
   },
 };
+
+const errorReqDelete = {
+  params: {
+    id: invalidId,
+  },
+};
+
+const reqSearch = {
+  query: {
+    q: "Thor",
+  },
+};
+
+const searchResponse = { message: [allProductsResponse[0]] };
 
 module.exports = {
   allProductsResponse,
@@ -111,4 +126,8 @@ module.exports = {
   errorNameLength,
   reqUpdate,
   updateResponse,
+  errorReqDelete,
+  typeSuccess,
+  reqSearch,
+  searchResponse,
 };

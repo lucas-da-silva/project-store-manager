@@ -11,6 +11,7 @@ const productsMock = require("./mocks/productsControllerMock");
 const errorMap = require("../../../src/utils/errorMap");
 
 const SUCCESS = 200;
+const NO_CONTENT = 204;
 const CREATED = 201;
 
 describe("Check the controller products layer", function () {
@@ -138,5 +139,55 @@ describe("Check the controller products layer", function () {
     expect(res.json).to.have.been.calledWith(
       productsMock.updateResponse.message
     );
+  });
+
+  it('with a non-existent id, "deleteProduct" function returns error', async function () {
+    const res = {};
+    const req = productsMock.errorReqDelete;
+
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon
+      .stub(productsService, "deleteProduct")
+      .resolves(productsMock.errorProductResponse);
+
+    await productsController.deleteProduct(req, res);
+
+    expect(res.status).to.have.been.calledWith(errorMap.errorMap.NOT_FOUND);
+    expect(res.json).to.have.been.calledWith({
+      message: productsMock.errorProductResponse.message,
+    });
+  });
+
+  it('"deleteProduct" function delete a product', async function () {
+    const res = {};
+    const req = productsMock.errorReqDelete;
+
+    res.status = sinon.stub().returns(res);
+    res.end = sinon.stub().returns();
+    sinon
+      .stub(productsService, "deleteProduct")
+      .resolves({ type: productsMock.typeSuccess });
+
+    await productsController.deleteProduct(req, res);
+
+    expect(res.status).to.have.been.calledWith(NO_CONTENT);
+    expect(res.end).to.have.been.called;
+  });
+
+  it('"getBySearchProduct" function returns products with the search term', async function () {
+    const res = {};
+    const req = productsMock.reqSearch;
+
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon
+      .stub(productsService, "getBySearchProduct")
+      .resolves(productsMock.searchResponse);
+
+    await productsController.getBySearchProduct(req, res);
+
+    expect(res.status).to.have.been.calledWith(SUCCESS);
+    expect(res.json).to.have.been.calledWith(productsMock.searchResponse.message);
   });
 });
