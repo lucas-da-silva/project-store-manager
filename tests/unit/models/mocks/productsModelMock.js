@@ -31,6 +31,9 @@ const queryDelete = {
   values: [paramDelete],
 };
 
+const paramSearch = 'Escudo';
+const searchResponse = [ { id: 3, name: 'Escudo do Capitão América' } ]
+
 module.exports = {
   allProductsResponse,
   productResponse,
@@ -38,4 +41,6 @@ module.exports = {
   queryUpdate,
   paramDelete,
   queryDelete,
+  paramSearch,
+  searchResponse,
 };

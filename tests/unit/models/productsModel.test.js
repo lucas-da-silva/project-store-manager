@@ -48,4 +48,11 @@ describe("Check the model products layer", function () {
       productsMock.queryDelete.values
     );
   });
+
+  it('"getBySearch" function returns products with the search term', async function () {
+    sinon.stub(connection, "execute").resolves([productsMock.searchResponse]);
+    const result = await productsModel.getBySearch(productsMock.paramSearch);
+    console.log(result)
+    expect(result).to.be.deep.equal(productsMock.searchResponse);
+  });
 });

@@ -65,7 +65,7 @@ describe("Check the service products layer", function () {
     sinon
       .stub(validateProducts, "validateProductId")
       .resolves(productMock.typeSucess);
-    sinon.stub(productModel, 'insert').resolves();
+    sinon.stub(productModel, 'update').resolves();
 
     const result = await productService.updateProduct(productMock.validId, productMock.validName);
     expect(result).to.be.deep.equal(productMock.updateProductResponse);
