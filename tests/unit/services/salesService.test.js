@@ -105,7 +105,7 @@ describe("Check the service sales layer", function () {
     expect(result).to.be.deep.equal(salesMock.productNotFoundError);
   });
 
-  it('"updateSale" function update any sales', async function () {
+  it('"updateSale" function update multiple sales', async function () {
     sinon
       .stub(validateSales, "validateIdSale")
       .resolves(salesMock.validateIdSaleResponse);
